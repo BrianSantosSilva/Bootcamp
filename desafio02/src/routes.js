@@ -7,9 +7,15 @@ import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
+// Cadastro Usuario
 routes.post('/users', UserController.store);
+
+// Validação Usuario
 routes.post('/sessions', SessionController.store);
 
-routes.put('/users', authMiddleware, UserController.update);
+routes.use(authMiddleware);
+
+// Atualiza Usuario
+routes.put('/users', UserController.update);
 
 export default routes;
