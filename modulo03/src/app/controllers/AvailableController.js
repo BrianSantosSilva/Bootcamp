@@ -4,6 +4,7 @@ import {
   setHours,
   setMinutes,
   setSeconds,
+  setMilliseconds,
   format,
   isAfter,
 } from 'date-fns';
@@ -21,7 +22,7 @@ class AvailableController {
 
     const searchDate = Number(date);
 
-    const appointments = await Appointment.finddAll({
+    const appointments = await Appointment.findAll({
       where: {
         provider_id: req.params.providerId,
         canceled_at: null,
@@ -49,8 +50,8 @@ class AvailableController {
 
     const available = schedule.map(time => {
       const [hour, minute] = time.split(':');
-      const value = setSeconds(
-        setMinutes(setHours(searchDate, hour), minute),
+      const value = setMilliseconds(
+        setSeconds(setMinutes(setHours(searchDate, hour), minute), 0),
         0
       );
 
